@@ -1,0 +1,76 @@
+<div *ngIf="loadingSpinner.store" class="p-text-center">	
+	<h2>Betöltés...</h2>
+	<p-progressSpinner></p-progressSpinner>
+</div>
+
+
+<h1 *ngIf="!loadingSpinner.store && store">Áruház: {{ store.name }}</h1>
+
+<div class="p-grid" *ngIf="!loadingSpinner.store && store">
+	<div class="p-col-12 p-md-6">
+		<div class="card">
+			<p-toolbar styleClass="p-mb-4">
+				<ng-template pTemplate="left">
+					<button pButton pRipple (click)="showEditDialog()" label="Szerkesztés" icon="fas fa-pen" class="p-button-warning p-mr-2"></button>
+					<button pButton pRipple (click)="showDeleteStoreDialog()" label="Törlés" icon="fas fa-trash-alt" class="p-button-danger p-mr-2"></button>
+				</ng-template>
+			</p-toolbar>		
+			<p-table [value]="storeData">
+				<ng-template pTemplate="header">
+					<tr>
+						<th>Adat</th>
+						<th>Érték</th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-data>
+					<tr>
+						<td>{{data.dataName}}</td>
+						<td>{{data.dataValue}}</td>
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>
+	<div class="p-col-12 p-md-6">
+		<div class="card">
+			<p-toolbar styleClass="p-mb-4">
+				<ng-template pTemplate="left">
+					<button pButton pRipple (click)="showProductDialog()" label="Új termék" icon="fas fa-plus" class="p-button-success p-mr-2"></button>
+				</ng-template>
+			</p-toolbar>			
+			
+			<p-table [value]="products" dataKey="name">
+				<ng-template pTemplate="header">
+					<tr>
+						<th style="width: 3rem"></th>
+						<th pSortableColumn="id">Azonosító <p-sortIcon field="id"></p-sortIcon></th>
+						<th pSortableColumn="name">Név <p-sortIcon field="name"></p-sortIcon></th>
+						<th pSortableColumn="amount">Mennyiség <p-sortIcon field="amount"></p-sortIcon></th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-product let-expanded="expanded">
+					<tr>
+						<td>
+							<button *ngIf="product.data.length > 0" type="button" pButton pRipple [pRowToggler]="product" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'fas fa-chevron-down' : 'fas fa-chevron-right'"></button>
+							<button *ngIf="product.data.length == 0" type="button" pButton pRipple class="p-button-text p-button-rounded p-button-plain" [icon]="'fas fa-times'"></button>
+						</td>
+						<td>{{product.id}}</td>
+						<td>{{product.name}}</td>
+						<td>{{product.amount}}</td>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="rowexpansion" let-product>
+					<tr>
+						<td colspan="4">
+							<div class="p-p-3">
+								<p-fieldset legend="Jellemző" [toggleable]="true" [collapsed]="true" *ngFor="let data of product.data">
+									<p>{{data.data}}</p>
+								</p-fieldset>
+							</div>
+						</td>
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>
+</div>

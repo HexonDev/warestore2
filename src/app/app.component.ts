@@ -1,10 +1,19 @@
+import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
+import { PrimeNGConfig } from 'primeng/api';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  title = 'warestore2';
+export class AppComponent implements OnInit {
+  title = 'WareStore 0.1';
+
+  constructor(private primengConfig: PrimeNGConfig) { }
+
+  ngOnInit() {
+    this.primengConfig.ripple = true;
+  }
 }

@@ -1,0 +1,91 @@
+<h1>Áruházak listája</h1>
+
+<div class="card">
+	<div class="p-grid p-jc-center">
+		<div class="p-col-12 p-md-12">
+			<p-toolbar styleClass="p-mb-4" *ngIf="stores && stores.length > 0">
+				<ng-template pTemplate="left">
+					<button pButton pRipple label="Új áruház" icon="fa fa-plus" class="p-button-success p-mr-2"
+						(click)="showAddStoreDialog()"></button>
+				</ng-template>
+			</p-toolbar>
+
+			<p-table *ngIf="stores && stores.length > 0" #dt [value]="stores" [rows]="10" [paginator]="true" [globalFilterFields]="['id','name']"
+				[rowHover]="true" dataKey="id"
+				currentPageReportTemplate="Eredmények {first}-tól/től {last}-ig a(z) {totalRecords} találatból"
+				[showCurrentPageReport]="true">
+				<ng-template pTemplate="caption">
+					<div class="p-d-flex p-ai-center p-jc-between">
+						<h5 class="p-m-0">Áruházak</h5>
+						<span class="p-input-icon-left">
+							<i class="fa fa-search"></i>
+							<input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+								placeholder="Keresés..." />
+						</span>
+					</div>
+				</ng-template>
+				<ng-template pTemplate="header">
+					<tr>
+						<th pSortableColumn="id">Azonosító <p-sortIcon field="id"></p-sortIcon>
+						</th>
+						<th pSortableColumn="name">Név <p-sortIcon field="name"></p-sortIcon>
+						</th>
+						<th pSortableColumn="productCount">Termékek száma <p-sortIcon field="productCount"></p-sortIcon>
+						</th>
+						<th></th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-store>
+					<tr>
+						<td>{{store.id}}</td>
+						<td>{{store.name}}</td>
+						<td>{{store.stock.length}}</td>
+						<td>
+							
+							<a pButton pRipple icon="fa fa-info" routerLink="/stores/{{store.id}}"
+								class="p-button-rounded p-button-primary p-mr-2"></a>
+							<button pButton pRipple icon="fa fa-trash-alt"
+								class="p-button-rounded p-button-danger" (click)="showDeleteStoreDialog(store)"></button>
+						</td>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="summary">
+					<div class="p-d-flex p-ai-center p-jc-between">
+						Összesen {{stores ? stores.length : 0 }} áruház
+					</div>
+				</ng-template>
+			</p-table>
+
+			<div *ngIf="loadingSpinner.stores" class="p-text-center">
+				<h2>Betöltés...</h2>
+				<p-progressSpinner></p-progressSpinner>
+			</div>
+			
+
+			<h3 *ngIf="stores && stores.length == 0 && !loadingSpinner.stores" class="p-text-center">Jelenleg nem található egy áruház se az adatbázisban</h3>
+		</div>
+	</div>
+</div>
+
+<p-dialog [(visible)]="storeDialog" [style]="{width: '450px'}" header="Áruház létrehozása" [modal]="true" styleClass="p-fluid" [resizable]="false" [contentStyle]="{height: '450px'}" [closable]="false">
+    <ng-template pTemplate="content">
+        <div class="p-field">
+			<label for="name">Áruház név</label>
+			<input id="name" [(ngModel)]="store.name" type="text" pInputText> 
+			<small class="p-error" *ngIf="!store.name">A mező kitöltése kötelező</small>
+        </div>
+
+		<div class="p-field">
+            <label for="address">Cím</label>
+            <p-dropdown [options]="addresses" [(ngModel)]="store.addressId" optionLabel="addressString" optionValue="id" [filter]="true" filterBy="addressString" [showClear]="true" placeholder="Válaszd ki a címet" inputId="address" scrollHeight="150px">
+			</p-dropdown>
+			<small class="p-error" *ngIf="!store.addressId">A cím hozzárendelése kötelező</small>
+        </div>
+        
+    </ng-template>
+    
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Mégse" icon="fa fa-times" class="p-button-danger" (click)="hideAddStoreDialog()"></button>
+        <button pButton pRipple label="Mentés" icon="fa fa-check" class="p-button-success" (click)="saveStore()"></button>
+    </ng-template>
+</p-dialog>

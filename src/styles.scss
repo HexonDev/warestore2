@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+
+body {
+	background-color: var(--surface-b);
+	color: var(--text-color);
+	font-family: var(--font-family);
+}
+
+.card {
+	background-color: var(--surface-a);
+	margin: 5px 5px 5px 5px;
+	padding: 20px 20px 20px 20px;
+}
