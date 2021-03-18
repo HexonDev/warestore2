@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Address } from '../model/address';
-import { Product } from '../model/product';
+import { Product, validateProduct } from '../model/product';
 import { ProductData } from '../model/productdata';
 import { Storage } from '../model/storage';
+import { ValidationResult } from '../model/validationresult';
 import { AddressService } from '../service/address.service';
 import { StorageService } from '../service/storage.service';
 
@@ -49,7 +50,7 @@ export class StorageComponent implements OnInit {
         this.storageData = [
           { dataName: "Azonosító", dataValue: this.storage.id },
           { dataName: "Név", dataValue: this.storage.name },
-          { dataName: "Cím", dataValue: this.storage.address.addressString },
+          { dataName: "Cím", dataValue: this.storage.address.shortName },
           { dataName: "Termékek száma", dataValue: this.storage.products.length == 0 ? "Nincs termék a raktárban (0)" : this.storage.products.length }
         ];   
         
@@ -87,7 +88,17 @@ export class StorageComponent implements OnInit {
   }
 
   addProduct(){
-    console.log("addProduct", this.product);
+    let validStatus: ValidationResult = validateProduct(this.product);
+
+    if(!validStatus.isValid){
+      this.messageService.add({
+        severity: "error",
+        summary: "Hiba!",
+        detail: `${validStatus.message}`
+      });
+      return;
+    }
+    
     this.storageService.postStorageProduct(this.storage.id, this.product).subscribe(res => {
       this.messageService.add({
         severity: "success",
@@ -99,6 +110,8 @@ export class StorageComponent implements OnInit {
       this.hideProductDialog();
     });
   }
+
+  
 
   showEditDialog(){ 
     this.loadingSpinner.addresses = true;

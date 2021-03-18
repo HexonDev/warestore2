@@ -34,6 +34,10 @@ export class StoreService {
     return this.http.patch(`https://localhost:44304/api/stores/${id}`, store);
   }
 
+  putStore(id: number, store: Store){
+    return this.http.put(`https://localhost:44304/api/stores/${id}`, store);
+  }
+
   deleteStore(id: number){
     return this.http.delete(`https://localhost:44304/api/stores/${id}`);
   }

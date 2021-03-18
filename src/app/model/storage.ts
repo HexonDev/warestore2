@@ -10,4 +10,8 @@ export class Storage {
 	addressId: number;
 	address: Address;
 	products?: Product[]; 
+
+	getRouterLink(): string {
+		return "storages/" + this.id;
+	}
 }

@@ -59,6 +59,7 @@ export class StoreListComponent implements OnInit {
       });
 
       this.loadStores();
+      this.hideAddStoreDialog()
     });
   }
 

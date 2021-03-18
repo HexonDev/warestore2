@@ -13,6 +13,7 @@
 				<ng-template pTemplate="left">
 					<button pButton pRipple (click)="showEditDialog()" label="Szerkesztés" icon="fas fa-pen" class="p-button-warning p-mr-2"></button>
 					<button pButton pRipple (click)="showDeleteStoreDialog()" label="Törlés" icon="fas fa-trash-alt" class="p-button-danger p-mr-2"></button>
+					<a pButton pRipple routerLink="/addresses/{{store.address.id}}" label="Cím megtekintése" icon="fas fa-map-marker-alt" class="p-button-primary p-mr-2"></a>
 				</ng-template>
 			</p-toolbar>		
 			<p-table [value]="storeData">
@@ -46,6 +47,7 @@
 						<th pSortableColumn="id">Azonosító <p-sortIcon field="id"></p-sortIcon></th>
 						<th pSortableColumn="name">Név <p-sortIcon field="name"></p-sortIcon></th>
 						<th pSortableColumn="amount">Mennyiség <p-sortIcon field="amount"></p-sortIcon></th>
+						<th></th>
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-product let-expanded="expanded">
@@ -57,6 +59,9 @@
 						<td>{{product.id}}</td>
 						<td>{{product.name}}</td>
 						<td>{{product.amount}}</td>
+						<td>
+							<a pButton pRipple icon="fas fa-info" routerLink="/products/{{product.id}}" class="p-button-rounded p-button-primary p-mr-2"></a>
+						</td>
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="rowexpansion" let-product>
@@ -74,3 +79,69 @@
 		</div>
 	</div>
 </div>
+
+<p-dialog [(visible)]="dialogs.edit" [style]="{width: '450px'}" header="Áruház szerkesztése" [modal]="true" styleClass="p-fluid" [resizable]="false" [contentStyle]="{height: '450px'}" (onHide)="hideEditDialog()">
+    <ng-template pTemplate="content">
+        <div class="p-field">
+			<label for="name">Áruház név</label>
+			<input id="name" [(ngModel)]="store.name" type="text" pInputText> 
+			<small class="p-error" *ngIf="!store.name">A mező kitöltése kötelező</small>
+        </div>
+
+		<div class="p-field">
+            <label for="address">Cím</label>
+            <p-dropdown [options]="addresses" [(ngModel)]="store.addressId" optionLabel="addressString" optionValue="id" [filter]="true" filterBy="addressString" [showClear]="true" placeholder="Válaszd ki a címet" inputId="address" scrollHeight="150px">
+			</p-dropdown>
+			<small class="p-error" *ngIf="!store.addressId">A cím hozzárendelése kötelező</small>
+        </div>
+        
+    </ng-template>
+    
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Mégse" icon="fa fa-times" class="p-button-danger" (click)="hideEditDialog()"></button>
+        <button pButton pRipple label="Mentés" icon="fa fa-check" class="p-button-success" (click)="editStore()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="dialogs.product" [style]="{width: '450px'}" header="Termék hozzáadása" [modal]="true" styleClass="p-fluid" [resizable]="false" [contentStyle]="{height: '450px'}" [closable]="false">
+    <ng-template pTemplate="content">
+        <div class="p-field">
+			<label for="name">Termék név</label>
+			<input id="name" [(ngModel)]="product.name" type="text" pInputText> 
+			<small class="p-error" *ngIf="!product.name">A mező kitöltése kötelező</small>
+        </div>
+
+		<div class="p-field">
+			<label for="amount">Termék mennyisége</label>
+			<input id="amount" [(ngModel)]="product.amount" type="number" pInputText> 
+			<small class="p-error" *ngIf="!product.amount">A mező kitöltése kötelező</small>
+        </div>
+
+		<div class="p-field">
+			<label for="amount">Termék vonalkód</label>
+			<input id="amount" [(ngModel)]="product.barcode" type="text" pInputText> 
+			<small class="p-error" *ngIf="!product.barcode">A mező kitöltése kötelező</small>
+        </div>
+        
+		<h3>Termék jellemzői</h3>
+		<p-toolbar styleClass="p-mb-4">
+			<ng-template pTemplate="left">
+				<button pButton pRipple (click)="addProductData()" label="Hozzáadás" icon="fas fa-plus" class="p-button-success p-mr-2"></button>
+			</ng-template>
+		</p-toolbar>
+
+		<div class="p-field" *ngFor="let data of product.data; index as i">
+			<label for="desc">Termék jellemző {{i + 1}} </label>
+			<div class="p-inputgroup">
+				<input id="desc" [(ngModel)]="product.data[i].data" type="text" pInputText type="text">     
+				<button type="button" pButton pRipple (click)="deleteProductData(i)" label="Törlés" class="p-button-danger"></button>
+			</div>
+			<small class="p-error" *ngIf="!product.data[i].data">A mező kitöltése kötelező</small>    
+        </div>
+    </ng-template>
+    
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Mégse" icon="fa fa-times" class="p-button-danger" (click)="hideProductDialog()"></button>
+        <button pButton pRipple label="Mentés" icon="fa fa-check" class="p-button-success" (click)="addProduct()"></button>
+    </ng-template>
+</p-dialog>

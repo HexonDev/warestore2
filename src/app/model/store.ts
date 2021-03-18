@@ -9,4 +9,8 @@ export class Store {
 	address: Address;
 	name: string;
 	stock: Product[];
+
+	getRouterLink(): string {
+		return "stores/" + this.id;
+	}
 }

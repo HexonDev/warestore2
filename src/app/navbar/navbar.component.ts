@@ -73,12 +73,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
         items: [
           {
             label: 'Kilistázás',
-            icon: 'fas fa-fw fa-list'
-          },
-          {
-            label: 'Létrehozás',
-            icon: 'fas fa-fw fa-plus-circle'
-          },
+            icon: 'fas fa-fw fa-list',
+            routerLink: '/addresses'
+          }
         ],
         visible: this.loggedIn
       },
@@ -88,21 +85,29 @@ export class NavbarComponent implements OnInit, OnDestroy {
         items: [
           {
             label: 'Kilistázás',
-            icon: 'fas fa-fw fa-list'
-          },
-          {
-            label: 'Létrehozás',
-            icon: 'fas fa-fw fa-plus-circle'
+            icon: 'fas fa-fw fa-list',
+            routerLink: '/products'
           },
         ],
         visible: this.loggedIn
+      },
+      {
+        label: 'Felhasználók',
+        icon: 'fas fa-fw fa-users',
+        items: [
+          {
+            label: 'Kilistázás',
+            icon: 'fas fa-fw fa-list',
+          }
+        ],
+        visible: this.loggedIn && this.accountService.userValue.permissionLevel > 0
       },
       {
         label: 'Információk',
         icon: 'fas fa-fw fa-info-circle',
         routerLink: '/info',
         visible: this.loggedIn
-      }
+      },
     ];
   }
 

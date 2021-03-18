@@ -1,0 +1,116 @@
+<div *ngIf="loadingSpinner.address" class="p-text-center">	
+	<h2>Betöltés...</h2>
+	<p-progressSpinner></p-progressSpinner>
+</div>
+
+
+<h1 *ngIf="!loadingSpinner.address && address">Cím: {{ address.shortName }}</h1>
+
+<div class="p-grid" *ngIf="!loadingSpinner.address && address">
+	<div class="p-col-12 p-md-6">
+		<div class="card">
+			<p-toolbar styleClass="p-mb-4">
+				<ng-template pTemplate="left">
+					<button pButton pRipple (click)="showEditDialog()" label="Szerkesztés" icon="fas fa-pen" class="p-button-warning p-mr-2"></button>
+					<button pButton pRipple (click)="showDeleteAddressDialog()" label="Törlés" icon="fas fa-trash-alt" class="p-button-danger p-mr-2"></button>
+				</ng-template>
+			</p-toolbar>		
+			<p-table [value]="addressData">
+				<ng-template pTemplate="header">
+					<tr>
+						<th>Adat</th>
+						<th>Érték</th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-data>
+					<tr>
+						<td>{{data.dataName}}</td>
+						<td>{{data.dataValue}}</td>
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>
+	<div class="p-col-12 p-md-6">
+		<div class="card">
+			<h3>Címhez rendelt egységek</h3>			
+			
+			<p-table [value]="attachedTo">
+				<ng-template pTemplate="header">
+					<tr>
+						<th>Azonosító</th>
+						<th>Típus</th>
+						<th>Név</th>
+						<th></th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-attachedTo>
+					<tr>
+						<td>{{attachedTo.id}}</td>
+						<td>{{attachedTo.stock ? "Áruház" : "Raktár"}}</td>
+						<td>{{attachedTo.name}}</td>
+						<td>
+							<a pButton pRipple icon="fa fa-info" routerLink="{{attachedTo.stock ? '/stores/' : '/storages/'}}{{attachedTo.id}}"
+								class="p-button-rounded p-button-primary p-mr-2"></a>
+						</td>
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>
+</div>
+
+<p-dialog [(visible)]="dialogs.edit" [style]="{width: '450px'}" header="Cím szerkesztése" [modal]="true" styleClass="p-fluid" [resizable]="false" [contentStyle]="{height: '450px'}" (onHide)="hideEditDialog()">
+    <ng-template pTemplate="content">
+        <div class="p-field">
+			<label for="sname">Cím rövid neve</label>
+			<input id="sname" [(ngModel)]="address.shortName" type="text" pInputText> 
+			<small class="p-error" *ngIf="!address.shortName">A mező kitöltése kötelező</small>
+		</div>
+		<div class="p-field">
+			<label for="country">Ország</label>
+			<input id="country" [(ngModel)]="address.country" type="text" pInputText> 
+			<small class="p-error" *ngIf="!address.country">A mező kitöltése kötelező</small>
+        </div>
+		<div class="p-field">
+			<label for="zip">Irányítószám</label>
+			<input id="zip" [(ngModel)]="address.zipCode" type="number" pInputText> 
+			<small class="p-error" *ngIf="!address.zipCode">A mező kitöltése kötelező</small>
+        </div>
+		<div class="p-field">
+			<label for="city">Város</label>
+			<input id="city" [(ngModel)]="address.city" type="text" pInputText> 
+			<small class="p-error" *ngIf="!address.city">A mező kitöltése kötelező</small>
+        </div>
+		<div class="p-field">
+			<label for="aname">Közterület neve</label>
+			<input id="aname" [(ngModel)]="address.name" type="text" pInputText> 
+			<small class="p-error" *ngIf="!address.name">A mező kitöltése kötelező</small>
+        </div>
+		<div class="p-field">
+			<label for="atype">Közterület jellege</label>
+			<input id="atype" [(ngModel)]="address.type" type="text" pInputText> 
+			<small class="p-error" *ngIf="!address.type">A mező kitöltése kötelező</small>
+        </div>
+		<div class="p-field">
+			<label for="bnumber">Házszám</label>
+			<input id="bnumber" [(ngModel)]="address.number" type="text" pInputText> 
+			<small class="p-error" *ngIf="!address.number">A mező kitöltése kötelező</small>
+        </div>
+		<div class="p-field">
+			<label for="floor">Emelet</label>
+			<input id="floor" [(ngModel)]="address.floor" type="text" pInputText> 
+			<small class="p-error" *ngIf="!address.floor">A mező kitöltése kötelező</small>
+        </div>
+		<div class="p-field">
+			<label for="door">Ajtó</label>
+			<input id="door" [(ngModel)]="address.door" type="text" pInputText> 
+			<small class="p-error" *ngIf="!address.door">A mező kitöltése kötelező</small>
+        </div>
+    </ng-template>
+    
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Mégse" icon="fa fa-times" class="p-button-danger" (click)="hideEditDialog()"></button>
+        <button pButton pRipple label="Mentés" icon="fa fa-check" class="p-button-success" (click)="editAddress()"></button>
+    </ng-template>
+</p-dialog>

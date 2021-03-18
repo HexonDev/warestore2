@@ -25,10 +25,10 @@ export class AuthGuard implements CanActivate {
 		this.messageService.add({
 			severity: "warn",
 			summary: "Figyelem!",
-			detail: `Nem vagy bejelentkezve, így nem érheted el a(z) kívánt oldalt!`
+			detail: `Nem vagy bejelentkezve, így nem érheted el a kívánt oldalt!`
 		});
 
-		this.router.navigate(['/login']);
+		this.accountService.logoutUser();
 		return false;
 	}
 }

@@ -25,6 +25,10 @@ export class AddressService {
     return this.http.patch(`https://localhost:44304/api/addresses/${id}`, address);
   }
 
+  putAddress(id: number, address: Address){
+    return this.http.put(`https://localhost:44304/api/addresses/${id}`, address);
+  }
+
   deleteAddress(id: number){
     return this.http.delete(`https://localhost:44304/api/addresses/${id}`);
   }

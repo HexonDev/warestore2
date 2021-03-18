@@ -1,19 +1,26 @@
 <div class="p-grid p-jc-center p-mt-4">
 	<div class="p-col-12 p-md-4 p-lg-2">
 		<div class="card">
-			<h2 class="p-text-center">Bejelentkezés</h2>
-
-			<div class="p-inputgroup">
-				<span class="p-inputgroup-addon"><i class="fas fa-user"></i></span>
-				<input type="text" [(ngModel)]="username" pInputText placeholder="Felhasználónév">         
-			</div>
-			<div class="p-inputgroup p-mt-4">
-				<span class="p-inputgroup-addon"><i class="fas fa-key"></i></span>
-				<input type="password" [(ngModel)]="password" pInputText placeholder="Jelszó">    
+			<div *ngIf="loadingSpinner.login" class="p-text-center">	
+				<h2>Bejelentkezés...</h2>
+				<p-progressSpinner></p-progressSpinner>
 			</div>
 
-			<div class="p-inputgroup p-mt-4">
-				<button pButton pRipple icon="fas fa-sign-in-alt" iconPos="left" type="button" label="Bejelentkezés" class="p-button-success" (click)="login()"></button>
+			<div *ngIf="!loadingSpinner.login">
+				<h2 class="p-text-center">Bejelentkezés</h2>
+
+				<div class="p-inputgroup">
+					<span class="p-inputgroup-addon"><i class="fas fa-user"></i></span>
+					<input type="text" [(ngModel)]="username" pInputText placeholder="Felhasználónév">         
+				</div>
+				<div class="p-inputgroup p-mt-4">
+					<span class="p-inputgroup-addon"><i class="fas fa-key"></i></span>
+					<input type="password" [(ngModel)]="password" pInputText placeholder="Jelszó">    
+				</div>
+	
+				<div class="p-inputgroup p-mt-4">
+					<button pButton pRipple icon="fas fa-sign-in-alt" iconPos="left" type="button" label="Bejelentkezés" class="p-button-success" (click)="login()"></button>
+				</div>
 			</div>
 		</div>
 	</div>

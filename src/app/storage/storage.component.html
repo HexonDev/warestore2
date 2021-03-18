@@ -12,6 +12,8 @@
 				<ng-template pTemplate="left">
 					<button pButton pRipple (click)="showEditDialog()" label="Szerkesztés" icon="fas fa-pen" class="p-button-warning p-mr-2"></button>
 					<button pButton pRipple (click)="showDeleteStorageDialog()" label="Törlés" icon="fas fa-trash-alt" class="p-button-danger p-mr-2"></button>
+					<a pButton pRipple routerLink="/addresses/{{storage.address.id}}" label="Cím megtekintése" icon="fas fa-map-marker-alt" class="p-button-primary p-mr-2"></a>
+					<button pButton pRipple (click)="showProductDialog()" label="Exportálás PDF-be" icon="fas fa-file-export" class="p-button-primary p-mr-2"></button>
 				</ng-template>
 			</p-toolbar>		
 			<p-table [value]="storageData">
@@ -45,6 +47,7 @@
 						<th pSortableColumn="id">Azonosító <p-sortIcon field="id"></p-sortIcon></th>
 						<th pSortableColumn="name">Név <p-sortIcon field="name"></p-sortIcon></th>
 						<th pSortableColumn="amount">Mennyiség <p-sortIcon field="amount"></p-sortIcon></th>
+						<th></th>
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-product let-expanded="expanded">
@@ -56,6 +59,9 @@
 						<td>{{product.id}}</td>
 						<td>{{product.name}}</td>
 						<td>{{product.amount}}</td>
+						<td>
+							<a pButton pRipple icon="fas fa-info" routerLink="/products/{{product.id}}" class="p-button-rounded p-button-primary p-mr-2"></a>
+						</td>
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="rowexpansion" let-product>
@@ -109,6 +115,12 @@
 			<label for="amount">Termék mennyisége</label>
 			<input id="amount" [(ngModel)]="product.amount" type="number" pInputText> 
 			<small class="p-error" *ngIf="!product.amount">A mező kitöltése kötelező</small>
+        </div>
+
+		<div class="p-field">
+			<label for="amount">Termék vonalkód</label>
+			<input id="amount" [(ngModel)]="product.barcode" type="text" pInputText> 
+			<small class="p-error" *ngIf="!product.barcode">A mező kitöltése kötelező</small>
         </div>
         
 		<h3>Termék jellemzői</h3>

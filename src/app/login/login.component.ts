@@ -14,12 +14,17 @@ export class LoginComponent implements OnInit {
   username: string;
   password: string;
 
+  loadingSpinner = {
+    login: false
+  };
+
   constructor(private accountService: AccountService, private messageService: MessageService, private router: Router) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   login(){
+    this.loadingSpinner.login = true;
+
     console.log(this.username, this.password)
     this.accountService.loginUser(this.username, this.password).pipe(first())
     .subscribe(res => {
@@ -30,7 +35,7 @@ export class LoginComponent implements OnInit {
         detail: `Sikeresen bejelentkeztél, mint ${this.username}!`
       })
 
-      console.log(new Date(res.tokenExpired), res.tokenExpired)
+      this.loadingSpinner.login = false;
     },
     error => {
       this.messageService.add({
@@ -38,7 +43,7 @@ export class LoginComponent implements OnInit {
         summary: "Hiba!",
         detail: `Hibás felhasználónév vagy jelszó!`
       })
-      console.log(error);
+      this.loadingSpinner.login = false;
     });
   }
 }

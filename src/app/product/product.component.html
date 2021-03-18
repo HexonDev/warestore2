@@ -1,0 +1,134 @@
+<div *ngIf="loadingSpinner.product" class="p-text-center">
+	<h2>Betöltés...</h2>
+	<p-progressSpinner></p-progressSpinner>
+</div>
+
+
+<h1 *ngIf="!loadingSpinner.product && product">Termék: {{ product.name }}</h1>
+
+<div class="p-grid" *ngIf="!loadingSpinner.product && product">
+	<div class="p-col-12 p-md-6">
+		<div class="card">
+			<p-toolbar styleClass="p-mb-4">
+				<ng-template pTemplate="left">
+					<button pButton pRipple (click)="showEditDialog()" label="Szerkesztés" icon="fas fa-pen"
+						class="p-button-warning p-mr-2"></button>
+					<button pButton pRipple (click)="showDeleteDialog()" label="Törlés" icon="fas fa-trash-alt"
+						class="p-button-danger p-mr-2"></button>
+				</ng-template>
+			</p-toolbar>
+			<p-table [value]="productData">
+				<ng-template pTemplate="header">
+					<tr>
+						<th>Adat</th>
+						<th>Érték</th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-data>
+					<tr>
+						<td>{{data.dataName}}</td>
+						<td>{{data.dataValue}}</td>
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>
+	<div class="p-col-12 p-md-6">
+		<div class="card">
+			<h3>Ezzel a vonalkóddal ellátot termékek másik egységben</h3>
+
+			<p-table [value]="attachedTo">
+				<ng-template pTemplate="header">
+					<tr>
+						<th>Azonosító</th>
+						<th>Típus</th>
+						<th>Név</th>
+						<th></th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-attachedTo>
+					<tr>
+						<td>{{attachedTo.id}}</td>
+						<td>{{attachedTo.stock ? "Áruház" : "Raktár"}}</td>
+						<td>{{attachedTo.name}}</td>
+						<td>
+							<a pButton pRipple icon="fa fa-info"
+								routerLink="{{attachedTo.stock ? '/stores/' : '/storages/'}}{{attachedTo.id}}"
+								class="p-button-rounded p-button-primary p-mr-2"></a>
+						</td>
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>
+	<div class="p-col-12 p-md-6">
+		<div class="card">
+			<p-toolbar styleClass="p-mb-4">
+				<ng-template pTemplate="left">
+					<p-toggleButton onLabel="Vonalkód hátterének elsötétítése" offLabel="Vonalkód hátterének kifehérítése"
+						[(ngModel)]="barcodeBackground" onIcon="fas fa-times" offIcon="fas fa-check"></p-toggleButton>
+				</ng-template>
+			</p-toolbar>
+			<ngx-barcode [bc-value]="product.barcode" [bc-display-value]="true" [bc-height]="100" [bc-text-margin]="1"
+				[bc-font-size]="30" [bc-font]="arial" [bc-background]="barcodeBackground ? '#fff' : ''" [bc-element-type]="'img'" [bc-width]="10">
+			</ngx-barcode>
+		</div>
+	</div>
+	<div class="p-col-12 p-md-6">
+		<div class="card">
+			<h3>Termék adatai</h3>
+			<ul *ngIf="product.data && product.data.length > 0">
+				<li *ngFor="let data of product.data">{{ data.data }}</li>
+			</ul>
+			<p *ngIf="!product.data || product.data.length === 0">Nincsenek a terméknek rögzített jellemzői</p>
+		</div>
+	</div>
+</div>
+
+<p-dialog [(visible)]="dialogs.edit" [style]="{width: '450px'}" header="Termék szerkesztése" [modal]="true"
+	styleClass="p-fluid" [resizable]="false" [contentStyle]="{height: '450px'}" [closable]="false">
+	<ng-template pTemplate="content">
+		<div class="p-field">
+			<label for="name">Termék név</label>
+			<input id="name" [(ngModel)]="product.name" type="text" pInputText>
+			<small class="p-error" *ngIf="!product.name">A mező kitöltése kötelező</small>
+		</div>
+
+		<div class="p-field">
+			<label for="amount">Termék mennyisége</label>
+			<input id="amount" [(ngModel)]="product.amount" type="number" pInputText>
+			<small class="p-error" *ngIf="!product.amount">A mező kitöltése kötelező</small>
+		</div>
+
+		<div class="p-field">
+			<label for="amount">Termék vonalkód</label>
+			<input id="amount" [(ngModel)]="product.barcode" type="text" pInputText>
+			<small class="p-error" *ngIf="!product.barcode">A mező kitöltése kötelező</small>
+		</div>
+
+		<h3>Termék jellemzői</h3>
+		<p-toolbar styleClass="p-mb-4">
+			<ng-template pTemplate="left">
+				<button pButton pRipple (click)="addProductData()" label="Hozzáadás" icon="fas fa-plus"
+					class="p-button-success p-mr-2"></button>
+			</ng-template>
+		</p-toolbar>
+
+		<div class="p-field" *ngFor="let data of product.data; index as i">
+			<label for="desc">Termék jellemző {{i + 1}}</label>
+			<div class="p-inputgroup">
+				<input id="desc" [(ngModel)]="product.data[i].data" type="text" pInputText type="text">
+				<button type="button" pButton pRipple (click)="deleteProductData(i)" label="Törlés"
+					class="p-button-danger"></button>
+			</div>
+			<small class="p-error" *ngIf="!product.data[i].data">A mező kitöltése kötelező</small>
+		</div>
+	</ng-template>
+
+	<ng-template pTemplate="footer">
+		<button pButton pRipple label="Mégse" icon="fa fa-times" class="p-button-danger"
+			(click)="hideEditDialog()"></button>
+		<button pButton pRipple label="Mentés" icon="fa fa-check" class="p-button-success"
+			(click)="editProduct()"></button>
+	</ng-template>
+</p-dialog>

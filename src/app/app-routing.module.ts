@@ -1,9 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AddressListComponent } from './address-list/address-list.component';
+import { AddressComponent } from './address/address.component';
 import { AuthGuard } from './auth/guard';
 import { HomeComponent } from './home/home.component';
 import { InfoComponent } from './info/info.component';
 import { LoginComponent } from './login/login.component';
+import { ProductListComponent } from './product-list/product-list.component';
+import { ProductComponent } from './product/product.component';
 import { StorageListComponent } from './storage-list/storage-list.component';
 import { StorageComponent } from './storage/storage.component';
 import { StoreListComponent } from './store-list/store-list.component';
@@ -42,6 +46,26 @@ const routes: Routes = [
   {
     path: "stores/:id",
     component: StoreComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "addresses",
+    component: AddressListComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "addresses/:id",
+    component: AddressComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "products",
+    component: ProductListComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "products/:id",
+    component: ProductComponent,
     canActivate: [AuthGuard]
   },
   {

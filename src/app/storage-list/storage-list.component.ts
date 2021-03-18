@@ -45,8 +45,6 @@ export class StorageListComponent implements OnInit {
   }
 
   hideAddStorageDialog(){ 
-    console.log("faszom")
-
     this.storageDialog = false
     this.addresses = []
     

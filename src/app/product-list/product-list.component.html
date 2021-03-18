@@ -1,0 +1,87 @@
+<h1>Termékek listája</h1>
+<div class="card">
+	<div class="p-grid p-jc-center">
+		<div class="p-col-12 p-md-12">
+			<p-toolbar styleClass="p-mb-4">
+				<ng-template pTemplate="left">
+					<button pButton pRipple label="Exportálás" icon="fa fa-plus"
+						class="p-button-success p-mr-2"></button>
+					<p-toggleButton onLabel="Vonalkód értékek elrejtése" offLabel="Vonalkód értékek megjelenítése"
+						[(ngModel)]="showBarcodeValue" onIcon="fas fa-times" offIcon="fas fa-check"></p-toggleButton>
+					<p-toggleButton onLabel="Vonalkód hátterének elsötétítése"
+						offLabel="Vonalkód hátterének kifehérítése" [(ngModel)]="barcodeBackground"
+						onIcon="fas fa-times" offIcon="fas fa-check" styleClass="p-ml-2"></p-toggleButton>
+				</ng-template>
+			</p-toolbar>
+
+			<div *ngIf="loadingSpinner.products" class="p-text-center">
+				<h2>Betöltés...</h2>
+				<p-progressSpinner></p-progressSpinner>
+			</div>
+
+
+			<h3 *ngIf="(!products || products.length == 0) && !loadingSpinner.products" class="p-text-center">Jelenleg
+				nem található egy termék se az adatbázisban</h3>
+
+			<p-table *ngIf="products && products.length > 0" #dt [value]="products" [rows]="10" [paginator]="true"
+				[globalFilterFields]="['id','name', 'barcode']" [(selection)]="selectedProducts" [rowHover]="true"
+				dataKey="id"
+				currentPageReportTemplate="Eredmények {first}-tól/től {last}-ig a(z) {totalRecords} találatból"
+				[showCurrentPageReport]="true">
+				<ng-template pTemplate="caption">
+					<div class="p-d-flex p-ai-center p-jc-between">
+						<h5 class="p-m-0">Termékek</h5>
+						<span class="p-input-icon-left">
+							<i class="fa fa-search"></i>
+							<input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+								placeholder="Keresés..." />
+						</span>
+					</div>
+				</ng-template>
+				<ng-template pTemplate="header">
+					<tr>
+						<th style="width: 3rem">
+							<p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+						</th>
+						<th pSortableColumn="id">Azonosító <p-sortIcon field="id"></p-sortIcon>
+						</th>
+						<th pSortableColumn="name">Név <p-sortIcon field="name"></p-sortIcon>
+						</th>
+						<th>Vonalkód
+						</th>
+						<th></th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-product>
+					<tr>
+						<td>
+							<p-tableCheckbox [value]="product"></p-tableCheckbox>
+						</td>
+						<td>{{product.id}}</td>
+						<td>{{product.name}}</td>
+						<td *ngIf="product.barcode">
+							<ngx-barcode [bc-value]="product.barcode" [bc-display-value]="showBarcodeValue"
+								[bc-height]="40" [bc-text-margin]="1" [bc-font-size]="15" [bc-font]="arial"
+								[bc-background]="barcodeBackground ? '#fff' : ''" [bc-element-type]="'img'"></ngx-barcode>
+						</td>
+						<td *ngIf="!product.barcode">Nincs</td>
+						<td>
+
+							<a pButton pRipple icon="fa fa-info" routerLink="/products/{{product.id}}"
+								class="p-button-rounded p-button-primary p-mr-2"></a>
+							<button pButton pRipple icon="fa fa-trash-alt" (click)="showDeleteProductDialog(product)"
+								class="p-button-rounded p-button-danger"></button>
+						</td>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="summary">
+					<div class="p-d-flex p-ai-center p-jc-between">
+						Összesen {{products ? products.length : 0 }} termék
+
+
+					</div>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>
+</div>

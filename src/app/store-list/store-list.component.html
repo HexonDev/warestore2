@@ -3,12 +3,20 @@
 <div class="card">
 	<div class="p-grid p-jc-center">
 		<div class="p-col-12 p-md-12">
-			<p-toolbar styleClass="p-mb-4" *ngIf="stores && stores.length > 0">
+			<p-toolbar styleClass="p-mb-4">
 				<ng-template pTemplate="left">
 					<button pButton pRipple label="Új áruház" icon="fa fa-plus" class="p-button-success p-mr-2"
 						(click)="showAddStoreDialog()"></button>
 				</ng-template>
 			</p-toolbar>
+
+			<div *ngIf="loadingSpinner.stores" class="p-text-center">
+				<h2>Betöltés...</h2>
+				<p-progressSpinner></p-progressSpinner>
+			</div>
+			
+
+			<h3 *ngIf="stores && stores.length == 0 && !loadingSpinner.stores" class="p-text-center">Jelenleg nem található egy áruház se az adatbázisban</h3>
 
 			<p-table *ngIf="stores && stores.length > 0" #dt [value]="stores" [rows]="10" [paginator]="true" [globalFilterFields]="['id','name']"
 				[rowHover]="true" dataKey="id"
@@ -55,14 +63,6 @@
 					</div>
 				</ng-template>
 			</p-table>
-
-			<div *ngIf="loadingSpinner.stores" class="p-text-center">
-				<h2>Betöltés...</h2>
-				<p-progressSpinner></p-progressSpinner>
-			</div>
-			
-
-			<h3 *ngIf="stores && stores.length == 0 && !loadingSpinner.stores" class="p-text-center">Jelenleg nem található egy áruház se az adatbázisban</h3>
 		</div>
 	</div>
 </div>
@@ -77,7 +77,7 @@
 
 		<div class="p-field">
             <label for="address">Cím</label>
-            <p-dropdown [options]="addresses" [(ngModel)]="store.addressId" optionLabel="addressString" optionValue="id" [filter]="true" filterBy="addressString" [showClear]="true" placeholder="Válaszd ki a címet" inputId="address" scrollHeight="150px">
+            <p-dropdown [options]="addresses" [(ngModel)]="store.addressId" optionLabel="shortName" optionValue="id" emptyFilterMessage="Nincs rögzített cím" [filter]="true" filterBy="shortName" [showClear]="true" placeholder="Válaszd ki a címet" inputId="address" scrollHeight="150px">
 			</p-dropdown>
 			<small class="p-error" *ngIf="!store.addressId">A cím hozzárendelése kötelező</small>
         </div>

@@ -31,6 +31,9 @@ import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AppRoutingModule } from './app-routing.module';
 import {FieldsetModule} from 'primeng/fieldset';
+import {SplitButtonModule} from 'primeng/splitbutton';
+import {NgxBarcodeModule} from 'ngx-barcode';
+import {ToggleButtonModule} from 'primeng/togglebutton';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -47,6 +50,10 @@ import { AuthInterceptor } from './auth/interceptor';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth/guard';
 import { StoreComponent } from './store/store.component';
+import { AddressListComponent } from './address-list/address-list.component';
+import { AddressComponent } from './address/address.component';
+import { ProductListComponent } from './product-list/product-list.component';
+import { ProductComponent } from './product/product.component';
 
 
 @NgModule({
@@ -60,8 +67,15 @@ import { StoreComponent } from './store/store.component';
     StorageComponent,
     LoginComponent,
     StoreComponent,
+    AddressListComponent,
+    AddressComponent,
+    ProductListComponent,
+    ProductComponent,
   ],
   imports: [
+    ToggleButtonModule,
+    NgxBarcodeModule,
+    SplitButtonModule,
     FormsModule,
     ProgressSpinnerModule,
     BrowserModule,
