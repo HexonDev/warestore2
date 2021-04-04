@@ -98,6 +98,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
           {
             label: 'Kilistázás',
             icon: 'fas fa-fw fa-list',
+            routerLink: '/users'
           }
         ],
         visible: this.loggedIn && this.accountService.userValue.permissionLevel > 0

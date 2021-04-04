@@ -6,12 +6,15 @@ import { AuthGuard } from './auth/guard';
 import { HomeComponent } from './home/home.component';
 import { InfoComponent } from './info/info.component';
 import { LoginComponent } from './login/login.component';
+import { PermissionGuard } from './permission/guard';
 import { ProductListComponent } from './product-list/product-list.component';
 import { ProductComponent } from './product/product.component';
 import { StorageListComponent } from './storage-list/storage-list.component';
 import { StorageComponent } from './storage/storage.component';
 import { StoreListComponent } from './store-list/store-list.component';
 import { StoreComponent } from './store/store.component';
+import { UserListComponent } from './user-list/user-list.component';
+import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
   {
@@ -67,6 +70,16 @@ const routes: Routes = [
     path: "products/:id",
     component: ProductComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: "users",
+    component: UserListComponent,
+    canActivate: [AuthGuard, PermissionGuard]
+  },
+  {
+    path: "users/:id",
+    component: UserComponent,
+    canActivate: [AuthGuard, PermissionGuard]
   },
   {
     path: "",

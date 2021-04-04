@@ -34,6 +34,7 @@ import {FieldsetModule} from 'primeng/fieldset';
 import {SplitButtonModule} from 'primeng/splitbutton';
 import {NgxBarcodeModule} from 'ngx-barcode';
 import {ToggleButtonModule} from 'primeng/togglebutton';
+import {PasswordModule} from 'primeng/password';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -54,6 +55,10 @@ import { AddressListComponent } from './address-list/address-list.component';
 import { AddressComponent } from './address/address.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { ProductComponent } from './product/product.component';
+import { UserListComponent } from './user-list/user-list.component';
+import { UserComponent } from './user/user.component';
+import { PermissionGuard } from './permission/guard';
+import { APP_BASE_HREF } from '@angular/common';
 
 
 @NgModule({
@@ -71,8 +76,11 @@ import { ProductComponent } from './product/product.component';
     AddressComponent,
     ProductListComponent,
     ProductComponent,
+    UserListComponent,
+    UserComponent,
   ],
   imports: [
+    PasswordModule,
     ToggleButtonModule,
     NgxBarcodeModule,
     SplitButtonModule,
@@ -113,8 +121,9 @@ import { ProductComponent } from './product/product.component';
   providers: [
     MessageService,
     ConfirmationService,
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    {provide: APP_BASE_HREF, useValue: '/'}
   ],
-  bootstrap: [AppComponent, AuthGuard]
+  bootstrap: [AppComponent, AuthGuard, PermissionGuard]
 })
 export class AppModule { }

@@ -2,8 +2,7 @@ import { Address } from "./address";
 import { Product } from "./product";
 
 export class Storage {
-
-	constructor(){}
+	constructor() {}
 
 	id?: number;
 	name: string;

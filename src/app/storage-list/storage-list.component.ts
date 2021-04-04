@@ -33,9 +33,9 @@ export class StorageListComponent implements OnInit {
   }
 
   showAddStorageDialog(){ 
-    this.storage = new Storage()
-    console.log("MEGNYIT:", this.storage)
-    this.loadingSpinner.addresses = true
+    this.storage = new Storage();
+    
+    this.loadingSpinner.addresses = true;
     this.storageDialog = true // Ezzel nyílik meg 
 
     this.addressService.getAddresses().subscribe(res => {
@@ -76,7 +76,6 @@ export class StorageListComponent implements OnInit {
   }
 
   saveStorage(){
-    console.log("SAVE:", this.storage);
 
     if(!this.storage.name || !this.storage.addressId){
       this.messageService.add({

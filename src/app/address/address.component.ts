@@ -50,8 +50,6 @@ export class AddressComponent implements OnInit {
           { dataName: "Ajtó", dataValue: this.address.door },
         ];
 
-        console.log(this.address)
-
         this.loadingSpinner.address = false;
 
         this.findAttachedUnit(this.address.id);

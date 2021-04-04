@@ -104,7 +104,7 @@ export class StorageComponent implements OnInit {
         severity: "success",
         summary: "Siker!",
         detail: `Sikeresen hozzáadtad a terméket a(z) ${this.storage.name} nevű raktárhoz`
-      })
+      });
 
       this.loadProducts();
       this.hideProductDialog();

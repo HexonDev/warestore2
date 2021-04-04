@@ -13,7 +13,6 @@
 					<button pButton pRipple (click)="showEditDialog()" label="Szerkesztés" icon="fas fa-pen" class="p-button-warning p-mr-2"></button>
 					<button pButton pRipple (click)="showDeleteStorageDialog()" label="Törlés" icon="fas fa-trash-alt" class="p-button-danger p-mr-2"></button>
 					<a pButton pRipple routerLink="/addresses/{{storage.address.id}}" label="Cím megtekintése" icon="fas fa-map-marker-alt" class="p-button-primary p-mr-2"></a>
-					<button pButton pRipple (click)="showProductDialog()" label="Exportálás PDF-be" icon="fas fa-file-export" class="p-button-primary p-mr-2"></button>
 				</ng-template>
 			</p-toolbar>		
 			<p-table [value]="storageData">
@@ -90,7 +89,7 @@
 
 		<div class="p-field">
             <label for="address">Cím</label>
-            <p-dropdown [options]="addresses" [(ngModel)]="storage.addressId" optionLabel="addressString" optionValue="id" [filter]="true" filterBy="addressString" [showClear]="true" placeholder="Válaszd ki a címet" inputId="address" scrollHeight="150px">
+            <p-dropdown [options]="addresses" [(ngModel)]="storage.addressId" optionLabel="shortName" optionValue="id" emptyFilterMessage="Nincs rögzített cím" [filter]="true" filterBy="shortName" [showClear]="true" placeholder="Válaszd ki a címet" inputId="address" scrollHeight="150px">
 			</p-dropdown>
 			<small class="p-error" *ngIf="!storage.addressId">A cím hozzárendelése kötelező</small>
         </div>

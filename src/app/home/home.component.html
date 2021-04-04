@@ -1,11 +1,24 @@
+<h1>Főoldal</h1>
+
 <div class="p-grid p-jc-between">
-    <div class="p-col-12 p-md-4" *ngFor="let a of storages">
+    <div class="p-col-12 p-md-6">
         <div class="p-m-3">
-            <p-card [header]="a.name">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error
-                    repudiandae numquam deserunt
-                    quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate
-                    neque quas!</p>
+            <p-card header="Raktárak">
+                <h3>Jelenleg {{ storages.length }} szerepel az adatbázisban</h3>
+                
+                <ul>
+                    <li>Összes termék: {{ storageProductCount }}</li>
+                </ul>
+            </p-card>
+        </div>
+    </div>
+    <div class="p-col-12 p-md-6">
+        <div class="p-m-3">
+            <p-card header="Áruházak">
+                <h3>Jelenleg {{ stores.length }} szerepel az adatbázisban</h3>
+                <ul>
+                    <li>Összes termék: {{ storeProductCount }}</li>
+                </ul>
             </p-card>
         </div>
     </div>

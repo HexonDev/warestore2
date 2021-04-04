@@ -1,0 +1,82 @@
+<div *ngIf="loadingSpinner.user" class="p-text-center">
+	<h2>Betöltés...</h2>
+	<p-progressSpinner></p-progressSpinner>
+</div>
+
+
+<h1 *ngIf="!loadingSpinner.user && user">Felhasználó: {{ user.username }}</h1>
+
+<div class="p-grid" *ngIf="!loadingSpinner.user && user">
+	<div class="p-col-12 p-md-12">
+		<div class="card">
+			<p-toolbar styleClass="p-mb-4">
+				<ng-template pTemplate="left">
+					<button pButton pRipple (click)="showEditDialog()" label="Szerkesztés" icon="fas fa-pen"
+						class="p-button-warning p-mr-2"></button>
+					<button pButton pRipple (click)="showDeleteDialog()" label="Törlés" icon="fas fa-trash-alt"
+						class="p-button-danger p-mr-2"></button>
+				</ng-template>
+			</p-toolbar>
+			<p-table [value]="userData">
+				<ng-template pTemplate="header">
+					<tr>
+						<th>Adat</th>
+						<th>Érték</th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-data>
+					<tr>
+						<td>{{data.dataName}}</td>
+						<td>{{data.dataValue}}</td>
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>
+</div>
+
+<p-dialog [(visible)]="dialogs.edit" [style]="{width: '450px'}" header="Felhasználó szerkesztése" [modal]="true"
+	styleClass="p-fluid" [resizable]="false" [contentStyle]="{height: '450px'}" [closable]="false">
+	<ng-template pTemplate="content">
+		<div class="p-field">
+			<label for="username">Felhasználónév</label>
+			<input id="username" [(ngModel)]="user.username" type="text" pInputText>
+			<small class="p-error" *ngIf="!user.username">A mező kitöltése kötelező</small>
+		</div>
+
+		<div class="p-field">
+			<label for="lastName">Vezetéknév</label>
+			<input id="lastName" [(ngModel)]="user.lastName" type="text" pInputText>
+			<small class="p-error" *ngIf="!user.lastName">A mező kitöltése kötelező</small>
+		</div>
+
+		<div class="p-field">
+			<label for="firstName">Keresztnév</label>
+			<input id="firstName" [(ngModel)]="user.firstName" type="text" pInputText>
+			<small class="p-error" *ngIf="!user.firstName">A mező kitöltése kötelező</small>
+		</div>
+
+		<div class="p-field">
+			<label for="permissionLevel">Hozzáférési szint</label>
+			<p-toggleButton onLabel="Adminisztrátor" offLabel="Felhasználó" [(ngModel)]="isAdmin"
+				onIcon="fas fa-user-shield" offIcon="fas fa-user"></p-toggleButton>
+		</div>
+
+		<div class="p-field">
+			<label for="password">Jelszó</label>
+			<input id="password" [(ngModel)]="user.password" type="password" pInputText>
+		</div>
+
+		<div class="p-field">
+			<label for="password2">Jelszó (2x)</label>
+			<input id="password2" [(ngModel)]="password2" type="password" pInputText>
+			<small class="p-error" *ngIf="user.password !== password2">A két jelszó nem egyezik</small>
+		</div>
+	</ng-template>
+
+	<ng-template pTemplate="footer">
+		<button pButton pRipple label="Mégse" icon="fa fa-times" class="p-button-danger"
+			(click)="hideEditDialog()"></button>
+		<button pButton pRipple label="Mentés" icon="fa fa-check" class="p-button-success" (click)="editUser()"></button>
+	</ng-template>
+</p-dialog>

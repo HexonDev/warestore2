@@ -90,7 +90,7 @@
 
 		<div class="p-field">
             <label for="address">Cím</label>
-            <p-dropdown [options]="addresses" [(ngModel)]="store.addressId" optionLabel="addressString" optionValue="id" [filter]="true" filterBy="addressString" [showClear]="true" placeholder="Válaszd ki a címet" inputId="address" scrollHeight="150px">
+            <p-dropdown [options]="addresses" [(ngModel)]="store.addressId" optionLabel="shortName" optionValue="id" emptyFilterMessage="Nincs rögzített cím" [filter]="true" filterBy="shortName" [showClear]="true" placeholder="Válaszd ki a címet" inputId="address" scrollHeight="150px">
 			</p-dropdown>
 			<small class="p-error" *ngIf="!store.addressId">A cím hozzárendelése kötelező</small>
         </div>

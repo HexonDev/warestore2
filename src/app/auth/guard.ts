@@ -15,7 +15,6 @@ export class AuthGuard implements CanActivate {
 
 		if(user){
 			const expireDate = new Date(user.tokenExpired);
-			console.log(expireDate.getTime() > Date.now(), expireDate.getTime(), Date.now());
 
 			if(expireDate.getTime() > Date.now()){
 				return true;

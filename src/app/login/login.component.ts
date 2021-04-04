@@ -25,7 +25,6 @@ export class LoginComponent implements OnInit {
   login(){
     this.loadingSpinner.login = true;
 
-    console.log(this.username, this.password)
     this.accountService.loginUser(this.username, this.password).pipe(first())
     .subscribe(res => {
       this.router.navigate(["/home"])
