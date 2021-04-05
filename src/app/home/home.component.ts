@@ -19,7 +19,11 @@ export class HomeComponent implements OnInit {
   storageProductCount: number = 0;
   storeProductCount: number = 0;
 
+  loadHome: boolean;
+
   ngOnInit(): void {
+    this.loadHome = true;
+
     this.storageService.getStorages().subscribe(res => {
       this.storages = res;
       this.countProducts();
@@ -32,12 +36,20 @@ export class HomeComponent implements OnInit {
   }
 
   countProducts(){
-    this.storages.forEach(storage => {
-      this.storageProductCount += storage.products.length;
-    });
+    if(this.storages){
+      this.storages.forEach(storage => {
+        this.storageProductCount += storage.products.length;
+      });
+      
+      this.loadHome = false;
+    }
 
-    this.stores.forEach(store => {
-      this.storeProductCount += store.stock.length;
-    });
+    if(this.stores){
+      this.stores.forEach(store => {
+        this.storeProductCount += store.stock.length;
+      });
+
+      this.loadHome = false;
+    }
   }
 }

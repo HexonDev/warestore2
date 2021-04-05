@@ -1,6 +1,11 @@
 <h1>Főoldal</h1>
 
-<div class="p-grid p-jc-between">
+<div *ngIf="loadHome" class="p-text-center">
+    <h2>Betöltés...</h2>
+    <p-progressSpinner></p-progressSpinner>
+</div>
+
+<div class="p-grid p-jc-between" *ngIf="stores && storages">
     <div class="p-col-12 p-md-6">
         <div class="p-m-3">
             <p-card header="Raktárak">

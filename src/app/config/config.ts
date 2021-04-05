@@ -1,5 +1,5 @@
 const config = {
-	apiUrl: "http://api.classicrp.hu/api"
+	apiUrl: "https://api.hexon.dev/api"
 };
 
 export { config };
